@@ -1,2 +1,4 @@
 .DS_store
 *.pyc
+.ipynb_checkpoints/
+Testing.ipynb

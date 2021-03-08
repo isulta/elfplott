@@ -11,11 +11,29 @@ class RestFrame:
         self.Ex = np.zeros_like(RestFrame.X)
         self.Ey = np.zeros_like(RestFrame.X)
         self.Ez = np.zeros_like(RestFrame.X)
+
+        self.Bx = 0
+        self.By = 0
+        self.Bz = 0
+
+        self.Ex_prime = np.zeros_like(RestFrame.X)
+        self.Ey_prime = np.zeros_like(RestFrame.X)
+        self.Ez_prime = np.zeros_like(RestFrame.X)
+
+        self.Bx_prime = np.zeros_like(RestFrame.X)
+        self.By_prime = np.zeros_like(RestFrame.X)
+        self.Bz_prime = np.zeros_like(RestFrame.X)
+
         self.point_charges = []
-    
-    def plot_E_xyplane(self, show_charges=True):
+
+        self.beta = 0
+
+    def plot_E_xyplane(self, plot_prime=False, show_charges=True):
         plt.figure(dpi=150)
         plt.streamplot(self.X[:,:,RestFrame.z0], self.Y[:,:,RestFrame.z0], self.Ex[:,:,RestFrame.z0], self.Ey[:,:,RestFrame.z0], density=2, linewidth=.5)
+        
+        if plot_prime:
+            plt.streamplot(self.X[:,:,RestFrame.z0], self.Y[:,:,RestFrame.z0], self.Ex_prime[:,:,RestFrame.z0], self.Ey_prime[:,:,RestFrame.z0], density=2, linewidth=.5)
 
         if show_charges:
             for xq, yq, q in self.point_charges:
@@ -35,7 +53,23 @@ class RestFrame:
         self.Ez += E * np.cos(Theta1)
 
         self.point_charges.append((xq, yq, q))
+        self.boost()
     
     def add_point_charges(self, x_coords, y_coords, charges):
         for xq, yq, q in zip(x_coords, y_coords, charges):
             self.add_point_charge(xq, yq, q)
+    
+    def gamma(self):
+        return 1 / np.sqrt(1-self.beta**2)
+
+    def boost(self, beta=None):
+        if beta is not None:
+            self.beta = beta
+        
+        self.Ex_prime = self.Ex
+        self.Ey_prime = self.gamma() * (self.Ey - self.beta * self.Bz)
+        self.Ez_prime = self.gamma() * (self.Ez + self.beta * self.By)
+
+        self.Bx_prime = self.Bx
+        self.By_prime = self.gamma() * (self.By + self.beta * self.Ez)
+        self.Bz_prime = self.gamma() * (self.Bz - self.beta * self.Ey)

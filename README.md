@@ -40,7 +40,6 @@ The main drawback of this method is that up to half of the original pixels in th
 
 - NumPy
 
-- [PyPNG](https://github.com/drj11/pypng): provided in distribution as `png.py`
-
-## Acknowledgments
-- Sample images included in `pool/` are from [PEXELS](https://www.pexels.com/) under CC0 License.
+## References
+- [Plotting Vector Fields in Python](https://krajit.github.io/sympy/vectorFields/vectorFields.html)
+- [Electric field](https://en.wikipedia.org/wiki/Electric_field)

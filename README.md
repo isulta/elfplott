@@ -17,11 +17,8 @@ To run `elfplott`, Python 3 and the [dependencies](#Dependencies) listed below a
 - Plot the Lorentz transformed electric and magnetic fields in the inertial frame
 
 ## Dependencies
-
 - Matplotlib
-
 - NumPy
-
 - [Pillow](https://pillow.readthedocs.io/en/stable/installation.html)
 
 ## References

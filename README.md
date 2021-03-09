@@ -40,6 +40,9 @@ The main drawback of this method is that up to half of the original pixels in th
 
 - NumPy
 
+- [Pillow](https://pillow.readthedocs.io/en/stable/installation.html)
+
 ## References
 - [Plotting Vector Fields in Python](https://krajit.github.io/sympy/vectorFields/vectorFields.html)
 - [Electric field](https://en.wikipedia.org/wiki/Electric_field)
+- [Importing Image Data into NumPy Arrays](https://www.pluralsight.com/guides/importing-image-data-into-numpy-arrays)

@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from PIL import Image
 # np.seterr(divide='ignore')
 
 class RestFrame:
@@ -39,7 +40,8 @@ class RestFrame:
         if show_charges:
             for xq, yq, q in self.point_charges:
                 if (np.abs(xq)<=RestFrame.coords1d[-1]) and (np.abs(yq)<=RestFrame.coords1d[-1]):
-                    plt.scatter(xq, yq, marker=('_' if q<0 else '+'), c=('k' if q<0 else 'r'), zorder=4, s=100)
+                    # plt.scatter(xq, yq, marker=('_' if q<0 else '+'), c=('k' if q<0 else 'r'), zorder=4, s=100)
+                    plt.scatter(xq, yq, marker='.', c=('k' if q<0 else 'r'), zorder=4, s=1)
         
         plt.xlabel("$x$")
         plt.ylabel("$y$")
@@ -79,6 +81,20 @@ class RestFrame:
         for xq, yq, q in zip(x_coords, y_coords, charges):
             self.add_point_charge(xq, yq, q)
     
+    def add_from_image(self, fname):
+        im = np.array(Image.open(fname))
+
+        pos_mask = (im[:,:,0]==255)&(im[:,:,1]==0)&(im[:,:,2]==0)   # positive charges (red pixels)
+        neg_mask = (im[:,:,0]==0)&(im[:,:,1]==0)&(im[:,:,2]==0)     # negative charges (black pixels)
+
+        nx, ny = im.shape[1], im.shape[0]
+        x_range = np.abs( RestFrame.coords1d.max() - RestFrame.coords1d.min() )
+        for mask, sign in ((pos_mask, 1), (neg_mask, -1)):
+            xvals = np.nonzero(mask)[1]/nx*x_range + RestFrame.coords1d.min()
+            yvals = -np.nonzero(mask)[0]/ny*x_range + RestFrame.coords1d.max()
+            if len(yvals)>0:
+                self.add_point_charges(xvals, yvals, sign*np.ones(len(yvals)))
+
     def gamma(self):
         return 1 / np.sqrt(1-self.beta**2)
 

@@ -47,7 +47,9 @@ class RestFrame:
 
         plt.show()
 
-    def plot_B(self, x_idx):
+    def plot_B(self, x):
+        x_idx = np.argmin(np.abs(RestFrame.coords1d-x))
+        
         plt.figure(dpi=150)
 
         plt.streamplot(RestFrame.coords1d_z, RestFrame.coords1d, self.Bz_prime[:,x_idx,:], self.By_prime[:,x_idx,:], density=2, linewidth=.5)

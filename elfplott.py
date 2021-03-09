@@ -44,7 +44,8 @@ class RestFrame:
         plt.xlabel("$x$")
         plt.ylabel("$y$")
         plt.title(r"$\vec{E}$ projection on $xy$-plane")
-
+        
+        plt.gca().set_aspect('equal', 'box')
         plt.show()
 
     def plot_B(self, x):
@@ -58,6 +59,7 @@ class RestFrame:
         plt.ylabel("$y$")
         plt.title(r"$\vec{B'}$ projection on $yz$-plane, " + f"$x={RestFrame.coords1d[x_idx]}$")
         
+        plt.gca().set_aspect('equal', 'box')
         plt.show()
 
     def add_point_charge(self, xq, yq, q):

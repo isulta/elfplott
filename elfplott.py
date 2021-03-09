@@ -38,10 +38,14 @@ class RestFrame:
             plt.streamplot(RestFrame.coords1d, RestFrame.coords1d, self.Ex_prime[:,:,RestFrame.z0], self.Ey_prime[:,:,RestFrame.z0], density=2, linewidth=.5)
 
         if show_charges:
-            for xq, yq, q in self.point_charges:
-                if (np.abs(xq)<=RestFrame.coords1d[-1]) and (np.abs(yq)<=RestFrame.coords1d[-1]):
-                    # plt.scatter(xq, yq, marker=('_' if q<0 else '+'), c=('k' if q<0 else 'r'), zorder=4, s=100)
-                    plt.scatter(xq, yq, marker='.', c=('k' if q<0 else 'r'), zorder=4, s=1)
+            point_charges_arr = np.array(self.point_charges)
+            point_charges_arr = point_charges_arr[(np.abs(point_charges_arr[:,0]) <= RestFrame.coords1d[-1])&(np.abs(point_charges_arr[:,1]) <= RestFrame.coords1d[-1]), :]
+
+            plt.scatter(point_charges_arr[(~np.array(point_charges_arr[:,3], bool))&(point_charges_arr[:,2]<0),0], point_charges_arr[(~np.array(point_charges_arr[:,3], bool))&(point_charges_arr[:,2]<0),1], marker='_', c='k', zorder=4, s=100)
+            plt.scatter(point_charges_arr[(~np.array(point_charges_arr[:,3], bool))&(point_charges_arr[:,2]>0),0], point_charges_arr[(~np.array(point_charges_arr[:,3], bool))&(point_charges_arr[:,2]>0),1], marker='+', c='r', zorder=4, s=100)
+
+            plt.scatter(point_charges_arr[np.array(point_charges_arr[:,3], bool)&(point_charges_arr[:,2]<0),0], point_charges_arr[np.array(point_charges_arr[:,3], bool)&(point_charges_arr[:,2]<0),1], marker='.', c='k', zorder=4, s=1)
+            plt.scatter(point_charges_arr[np.array(point_charges_arr[:,3], bool)&(point_charges_arr[:,2]>0),0], point_charges_arr[np.array(point_charges_arr[:,3], bool)&(point_charges_arr[:,2]>0),1], marker='.', c='r', zorder=4, s=1)
         
         plt.xlabel("$x$")
         plt.ylabel("$y$")
@@ -64,7 +68,7 @@ class RestFrame:
         plt.gca().set_aspect('equal', 'box')
         plt.show()
 
-    def add_point_charge(self, xq, yq, q):
+    def add_point_charge(self, xq, yq, q, imagept):
         X1 = RestFrame.X - xq
         Y1 = RestFrame.Y - yq
         Phi1 = np.arctan2(Y1, X1)
@@ -74,12 +78,12 @@ class RestFrame:
         self.Ey += E * np.sin(Theta1) * np.sin(Phi1)
         self.Ez += E * np.cos(Theta1)
 
-        self.point_charges.append((xq, yq, q))
+        self.point_charges.append((xq, yq, q, imagept))
         self.boost()
     
-    def add_point_charges(self, x_coords, y_coords, charges):
+    def add_point_charges(self, x_coords, y_coords, charges, imagept=False):
         for xq, yq, q in zip(x_coords, y_coords, charges):
-            self.add_point_charge(xq, yq, q)
+            self.add_point_charge(xq, yq, q, imagept)
     
     def add_from_image(self, fname):
         im = np.array(Image.open(fname))
@@ -93,7 +97,7 @@ class RestFrame:
             xvals = np.nonzero(mask)[1]/nx*x_range + RestFrame.coords1d.min()
             yvals = -np.nonzero(mask)[0]/ny*x_range + RestFrame.coords1d.max()
             if len(yvals)>0:
-                self.add_point_charges(xvals, yvals, sign*np.ones(len(yvals)))
+                self.add_point_charges(xvals, yvals, sign*np.ones(len(yvals)), True)
 
     def gamma(self):
         return 1 / np.sqrt(1-self.beta**2)

@@ -25,3 +25,4 @@ To run `elfplott`, Python 3 and the [dependencies](#Dependencies) listed below a
 - [Plotting Vector Fields in Python](https://krajit.github.io/sympy/vectorFields/vectorFields.html)
 - [Electric field](https://en.wikipedia.org/wiki/Electric_field)
 - [Importing Image Data into NumPy Arrays](https://www.pluralsight.com/guides/importing-image-data-into-numpy-arrays)
+- [Quadrupole](https://en.wikipedia.org/wiki/Quadrupole)

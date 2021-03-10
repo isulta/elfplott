@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from PIL import Image
-# np.seterr(divide='ignore')
 
 class RestFrame:
     coords1d = np.linspace(-5,5,20)                         # x and y coordinates

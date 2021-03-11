@@ -5,6 +5,8 @@ The **El**ectric **F**ield **P**lotting and **Lo**rentz **T**ransformation **T**
 
 ## Usage
 
+Click [here](https://www.youtube.com/watch?v=aI_TdLxXtPg) to watch a video tutorial.
+
 The included Jupyter notebook `Tutorial.ipynb` demonstrates the main [features](#Features) of `elfplott`.
 
 To run `elfplott`, Python 3 and the [dependencies](#Dependencies) listed below are required.
